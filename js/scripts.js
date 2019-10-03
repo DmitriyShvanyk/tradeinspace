@@ -77,4 +77,16 @@
 	});
 
 
+	/*-------------------------------------------------*/
+	/* =  copyright years
+	/*-------------------------------------------------*/
+	function showCopyrightYears(){
+		const date = new Date();
+		const dateYears = date.getFullYear();
+		const yearsHTML = document.querySelector('.js-years');
+		yearsHTML.textContent = dateYears;
+	}
+	showCopyrightYears();
+
+
 })();
