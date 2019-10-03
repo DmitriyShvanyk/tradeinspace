@@ -1,55 +1,80 @@
-;(function($){
-	
+; (function () {
+
 	"use strict";
-	
+
 	/*-------------------------------------------------*/
-    /* =  preloader
-    /*-------------------------------------------------*/
-	$(window).on('load', function () {
-		var $preloader = $('.b-preloader'),
-			$spinner   = $preloader.find('.b-preloader__spinner');
-			$spinner.fadeOut();
-			$preloader.delay(350).fadeOut('slow');
+	/* =  preloader
+	/*-------------------------------------------------*/
+	function loadData() {
+		return new Promise((resolve, reject) => {
+			setTimeout(resolve, 1000);
+		});
+	}
+	loadData().then(() => {
+		let preloader = document.querySelector('.preloader');
+		preloader.classList.add('preloader--hidden');
 	});
-		
+
+
 	/*-------------------------------------------------*/
-    /* =  fonts
-    /*-------------------------------------------------*/
-	$("head").append('<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,400i,700&amp;subset=latin-ext" rel="stylesheet">');
-	
-	
+	/* =  load fonts
 	/*-------------------------------------------------*/
-    /* =  navbar-toggle hide when click link open menu
-    /*-------------------------------------------------*/
-	$('#navbar-tradeinspace .navbar-right a').on('click', function(){ 
-        if($('.navbar-toggle').css('display') !='none'){
-            $(".navbar-toggle").trigger( "click" );
-        }
-    });
-	
+	function loadFonts(href) {
+		const head = document.querySelector('head');
+		const link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.href = href;
+		head.appendChild(link);
+	}
+	loadFonts('https://fonts.googleapis.com/css?family=Lato:100,300,400,400i,700&amp;subset=latin-ext');
+
+
+
 	/*-------------------------------------------------*/
-    /* =  Smoothscroll
-    /*-------------------------------------------------*/
-	$.srSmoothscroll({
-		// defaults
-		step: 55,
-		speed: 400,
-		ease: 'swing',
-		target: $('body'),
-		container: $(window)
+	/* =  navbar-toggle hide when click link open menu
+	/*-------------------------------------------------*/
+	$('#navbar-tradeinspace .navbar-right a').on('click', function () {
+		if ($('.navbar-toggle').css('display') != 'none') {
+			$(".navbar-toggle").trigger("click");
+		}
 	});
-	
-	
-	
+
+
 	/*-------------------------------------------------*/
-    /* =  tabs prev/next mobile
-    /*-------------------------------------------------*/
-	$('#tabs-tradeinspace-teams [class*=next]').click(function(){
-	  $('.nav-tabs > .active').next('li').find('a').trigger('click');
+	/* =  collapse the navbar on scroll
+	/*-------------------------------------------------*/
+	$(window).scroll(function () {
+		if ($(".navbar").offset().top > 150) {
+			$('body').addClass('fixed');
+		} else {
+			$('body').removeClass('fixed');
+		}
 	});
-	  $('#tabs-tradeinspace-teams [class*=prev]').click(function(){
-	  $('.nav-tabs > .active').prev('li').find('a').trigger('click');
-	});	
-	
-	
-})(window.jQuery);
+
+
+
+	/*-------------------------------------------------*/
+	/* =  scrolling feature - requires jQuery Easing plugin
+	/*-------------------------------------------------*/
+	$(document).on('click', 'a.page-scroll', function (event) {
+		var $anchor = $(this);
+		$('html, body').stop().animate({
+			scrollTop: $($anchor.attr('href')).offset().top - 0
+		}, 1100, 'easeInOutExpo');
+		event.preventDefault();
+	});
+
+
+
+	/*-------------------------------------------------*/
+	/* =  tabs prev/next mobile
+	/*-------------------------------------------------*/
+	$('#tabs-tradeinspace-teams [class*=next]').click(function () {
+		$('.nav-tabs > .active').next('li').find('a').trigger('click');
+	});
+	$('#tabs-tradeinspace-teams [class*=prev]').click(function () {
+		$('.nav-tabs > .active').prev('li').find('a').trigger('click');
+	});
+
+
+})();
